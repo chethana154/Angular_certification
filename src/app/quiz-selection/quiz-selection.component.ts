@@ -19,6 +19,7 @@ categorylist: any= [];
 questionlist: any=[];
 submitActive= false;
 selectedAnsListQ: any=[];
+
   
 
   constructor(private http: HttpClient, private router: Router, private quizservice:QuizQandansService) { }
@@ -57,8 +58,10 @@ selectedAnsListQ: any=[];
  }
   
  selectedAnswers(event:any){
+  console.log('chec', event.checked)
 this.quizservice.selectedAnsList.push(event.target.value)
 this.selectedAnsListQ = this.quizservice.selectedAnsList
+console.log('length', this.selectedAnsListQ.length)
   if(this.selectedAnsListQ.length === 5){
     this.submitActive = true;
   }
@@ -69,6 +72,7 @@ this.selectedAnsListQ = this.quizservice.selectedAnsList
  {
        this.router.navigateByUrl('/results')
  }
+
  
 }   
 

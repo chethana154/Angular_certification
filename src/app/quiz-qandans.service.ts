@@ -6,7 +6,6 @@ import { HttpClient } from '@angular/common/http';
 export class QuizQandansService {
   questionlist: any=[];
   selectedAnsList: any=[];
-  finalAnswerList: any= [];
   constructor(private http: HttpClient) { }
 
   getQueriesandAns() {

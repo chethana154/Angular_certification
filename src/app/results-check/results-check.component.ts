@@ -25,14 +25,15 @@ export class ResultsCheckComponent implements OnInit {
   correctAns: any=[];
   incorrect:any=[];
   error:any=[];
-  correct: any;
+  correctopt=false;
+  incorrectopt=false;
+  colorOPt:any;
 
   constructor(private router: Router, private quizservice:QuizQandansService) { }
 
   ngOnInit(): void {
     this.questionListR= this.quizservice.questionlist
     this.selectedAnsR=this.quizservice.selectedAnsList
-    this.finalAnswerListR = this.quizservice.finalAnswerList
     for(let key of Object.keys(this.questionListR))
     {
       this.arrayRes = this.questionListR[key]
@@ -44,21 +45,23 @@ export class ResultsCheckComponent implements OnInit {
     }
    
   for (var i = 0; i < this.selectedAnsR.length; i++) {
-    if(this.selectedAnsR[i] == this.questionListR.results[i].correct_answer){
-    this.quizservice.finalAnswerList.push(this.selectedAnsR);
-    this.correct=true
- 
+    this.questionListR.results[i].selectedoption = this.selectedAnsR[i]
+    if(this.selectedAnsR[i] === this.questionListR.results[i].correct_answer){
+    this.finalAnswerListR.push(this.selectedAnsR[i]);
+    this.questionListR.results[i].correctAns = true
+    this.questionListR.score = this.finalAnswerListR.length   
   }
   else if(this.questionListR.results[i].incorrect_answers.includes(this.selectedAnsR[i]) && this.selectedAnsR[i] !== this.questionListR.results[i].correct_answer){
-    this.incorrect.push (this.selectedAnsR[i].toString())
+   this.questionListR.results[i].selectedoption = this.selectedAnsR[i]
+   this.questionListR.results[i].incorrectAns = true
   }
   }
 
-
   }
-
 redirectHome(){
   this.router.navigate(['/'])
+  this.selectedAnsR.length=0;
+  this.finalAnswerListR.length=0;
 }
 }
 

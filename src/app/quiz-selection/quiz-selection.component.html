@@ -18,8 +18,9 @@
  <p [innerHTML]="query.question" ></p>
 <ul>
   <li *ngFor="let options of query.incorrect_answers; let i = index" class="questionlist">
- <input type="radio"   value={{options}} name={{q}} [innerHTML]="options" id="{{i}}-{{q}}"  (change)="selectedAnswers($event)">
+ <input type="radio"   value={{options}} name={{q}} [innerHTML]="options" id="{{i}}-{{q}}"  (click)="selectedAnswers($event)">
  <label class="radio" for="{{i}}-{{q}}">{{options}}</label>    
+
   </li>
 </ul>
 </div>

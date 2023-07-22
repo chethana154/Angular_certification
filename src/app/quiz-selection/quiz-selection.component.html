@@ -1,0 +1,31 @@
+
+
+<select id="categorySelect" (change)="selectCategory($event)" name="selectedCategory">
+    <option [value]="null" default>Select a category</option>
+
+  <option *ngFor="let cate of categorylist.trivia_categories" [value]="cate?.id">{{cate.name}}</option>
+</select>
+
+<select id="difficultySelect" (change)="selectdifficulty($event)" name="selectedLevelselect">
+    <option [value]="null" default>Select difficulty</option>
+
+  <option *ngFor="let item of difficultylevel" [value]="item">{{item}}</option>
+</select>
+
+<button id="createBtn" (click)=createQuiz()>create</button>
+
+<div *ngFor="let query of questionlist.results let q = index" >
+ <p [innerHTML]="query.question" ></p>
+<ul>
+  <li *ngFor="let options of query.incorrect_answers; let i = index" class="questionlist">
+ <input type="radio"   value={{options}} name={{q}} [innerHTML]="options" id="{{i}}-{{q}}"  (change)="selectedAnswers($event)">
+ <label class="radio" for="{{i}}-{{q}}">{{options}}</label>    
+  </li>
+</ul>
+</div>
+
+<button class="submitBut" [hidden]="!submitActive" (click)="submitRes()">Submit</button>
+
+
+
+

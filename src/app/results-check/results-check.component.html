@@ -1,0 +1,17 @@
+<h1>Results</h1>
+     <div *ngFor="let query of questionListR.results let q = index" >
+        <p [innerHTML]="query.question" ></p>
+    <ul >
+      <li *ngFor="let options of query.incorrect_answers; let i = index" class="questionlist" >
+            <input type="radio" #radio  value="{{options}}" name={{q}} [innerHTML]="options" id="{{i}}-{{q}}" >
+            <label for="{{i}}-{{q}}"  [ngClass]="{'highlight': selectedAnsR[i] && options ===  query.correct_answer, 'incorrect': options.includes(selectedAnsR[i])  && selectedAnsR[i] && options !==  query.correct_answer}">{{options}}</label>
+            {{selectedAnsR && options  && selectedAnsR[i] && options !==  query.correct_answer}}
+      </li>
+     
+    </ul>
+
+
+</div>
+<p [ngClass]="{'pass':finalAnswerListR.length >=4 && finalAnswerListR.length<=5, 'incorrect':finalAnswerListR.length <=1, 'avg': finalAnswerListR.length <=3 && finalAnswerListR.length>=2}">you scored {{finalAnswerListR.length}} out of 5</p>
+
+<button  (click)="redirectHome()">Create a new quiz</button>

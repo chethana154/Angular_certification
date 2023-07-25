@@ -1,5 +1,5 @@
 
-
+<div *ngIf="categorylist">
 <select id="categorySelect" (change)="selectCategory($event)" name="selectedCategory">
     <option [value]="null" default>Select a category</option>
 
@@ -13,7 +13,8 @@
 </select>
 
 <button id="createBtn" (click)=createQuiz()>create</button>
-
+</div>
+<div *ngIf="questionlist">
 <div *ngFor="let query of questionlist.results let q = index" >
  <p [innerHTML]="query.question" ></p>
 <ul>
@@ -23,6 +24,7 @@
 
   </li>
 </ul>
+</div>
 </div>
 
 <button class="submitBut" [hidden]="!submitActive" (click)="submitRes()">Submit</button>

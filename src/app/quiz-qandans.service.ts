@@ -4,8 +4,8 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class QuizQandansService {
-  questionlist: any=[];
-  selectedAnsList: any=[];
+  questionlist:any;
+  selectedAnsList: Array<string> = [];
   constructor(private http: HttpClient) { }
 
   getQueriesandAns() {

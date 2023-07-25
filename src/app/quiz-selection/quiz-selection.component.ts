@@ -4,21 +4,22 @@ import { Router } from '@angular/router';
 import {QuizQandansService} from '../quiz-qandans.service'
 
 
+
 @Component({
   selector: 'app-quiz-selection',
   templateUrl: './quiz-selection.component.html',
   styleUrls: ['./quiz-selection.component.css']
 })
-export class QuizSelectionComponent implements OnInit {
-  [x: string]: any;
 
+export class QuizSelectionComponent implements OnInit {
+  
 difficultylevel = ['easy','medium','hard']
-selectedLevelselect: any;
-selectedCategory: any;
-categorylist: any= []; 
+selectedLevelselect!: string;
+selectedCategory!: string;
+categorylist: any;
 questionlist: any=[];
-submitActive= false;
-selectedAnsListQ: any=[];
+submitActive: boolean= false;
+selectedAnsListQ: Array<string>=[];
 
   
 
@@ -27,21 +28,30 @@ selectedAnsListQ: any=[];
   
   ngOnInit(): void {
     this.quizservice.getQueriesandAns() /*getting for category */
-      .subscribe(res => {
-        this.categorylist= res
+      .subscribe((res) => {
+        this.categorylist= res;
+       
       });
       
       this.createQuiz()
   }
  
   /* get selected difficulty level*/ 
-  selectdifficulty (event: any) {
-    this.selectedLevelselect = event.target.value;
+  selectdifficulty (event: Event) {
+    const target= event.target as HTMLButtonElement;
+    if (target){ 
+      this.selectedLevelselect = target.value;
+    }
+    
   }
 /* get selected Category of Quiz*/ 
-  selectCategory (event: any) {
-    this.selectedCategory = event.target.value;  
+  selectCategory (event: Event) {
+    const target= event.target as HTMLButtonElement;
+    if (target){ 
+      this.selectedCategory = target.value;  
   }
+    }
+    
 
   /* Retrieve questions for selected category*/
   createQuiz(){
@@ -49,20 +59,24 @@ selectedAnsListQ: any=[];
       .subscribe(res => {
        this.quizservice.questionlist = res /*update response in service to access in results screen */
        this.questionlist= this.quizservice.questionlist
-       this.questionlist.results.map((q: any)=>{
+       this.questionlist.results.map((q:any)=>{
         q.incorrect_answers.push(q.correct_answer)
         q.incorrect_answers.sort(() => Math.random() - 0.5);
       });
+    
   })
     
  }
   
- selectedAnswers(event:any){
-  console.log('chec', event.checked)
-this.quizservice.selectedAnsList.push(event.target.value)
+ selectedAnswers(event:Event){
+  const target= event.target as HTMLButtonElement;
+  if (target){ 
+    this.quizservice.selectedAnsList.push(target.value)
+  }
+
 this.selectedAnsListQ = this.quizservice.selectedAnsList
-console.log('length', this.selectedAnsListQ.length)
-  if(this.selectedAnsListQ.length === 5){
+console.log('quetion len', this.questionlist.results.length)
+  if(this.selectedAnsListQ.length === this.questionlist.results.length){
     this.submitActive = true;
   }
 

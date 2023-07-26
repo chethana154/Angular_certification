@@ -1,5 +1,6 @@
+<div *ngIf="questionlistR">
 <h1>Results</h1>
-     <div *ngFor="let query of questionListR.results let q = index" >
+     <div *ngFor="let query of questionlistR let q = index" >
         <p [innerHTML]="query.question" ></p>
     <ul >
       <li *ngFor="let options of query.incorrect_answers; let i = index" class="questionlist" >
@@ -14,6 +15,7 @@
 
 
 
+</div>
 </div>
 <p [ngClass]="{'pass':finalAnswerListR.length >=4 && finalAnswerListR.length<=5, 'bavg':finalAnswerListR.length <=1, 'avg': finalAnswerListR.length <=3 && finalAnswerListR.length>=2}">you scored {{finalAnswerListR.length}} out of 5</p>   
 

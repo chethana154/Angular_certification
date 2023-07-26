@@ -3,7 +3,18 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {QuizQandansService} from '../quiz-qandans.service'
 
-
+interface Category {
+  id: string;
+  name: string;
+}
+interface Results {
+  category: string;
+  correct_answer: string;
+  difficulty: string;
+  incorrect_answers: Array<string>;
+  question: string;
+  type: string;
+}
 
 @Component({
   selector: 'app-quiz-selection',
@@ -16,8 +27,10 @@ export class QuizSelectionComponent implements OnInit {
 difficultylevel = ['easy','medium','hard']
 selectedLevelselect!: string;
 selectedCategory!: string;
-categorylist: any;
-questionlist: any=[];
+categorylistRes!: Object;
+categorylist!: Category[];
+questionlistRes!: Object;
+questionlist!: Results[];
 submitActive: boolean= false;
 selectedAnsListQ: Array<string>=[];
 
@@ -29,8 +42,8 @@ selectedAnsListQ: Array<string>=[];
   ngOnInit(): void {
     this.quizservice.getQueriesandAns() /*getting for category */
       .subscribe((res) => {
-        this.categorylist= res;
-       
+        this.categorylistRes= res;
+        this.categorylist= Object.values(this.categorylistRes)[0]   ;
       });
       
       this.createQuiz()
@@ -58,8 +71,9 @@ selectedAnsListQ: Array<string>=[];
    this.http.get('https://opentdb.com/api.php?amount=5&category='+this.selectedCategory+'&difficulty='+this.selectedLevelselect+'&type=multiple')
       .subscribe(res => {
        this.quizservice.questionlist = res /*update response in service to access in results screen */
-       this.questionlist= this.quizservice.questionlist
-       this.questionlist.results.map((q:any)=>{
+       this.questionlistRes= this.quizservice.questionlist;
+       this.questionlist= Object.values(this.questionlistRes)[1]   ;
+       this.questionlist.map((q)=>{
         q.incorrect_answers.push(q.correct_answer)
         q.incorrect_answers.sort(() => Math.random() - 0.5);
       });
@@ -75,8 +89,7 @@ selectedAnsListQ: Array<string>=[];
   }
 
 this.selectedAnsListQ = this.quizservice.selectedAnsList
-console.log('quetion len', this.questionlist.results.length)
-  if(this.selectedAnsListQ.length === this.questionlist.results.length){
+  if(this.selectedAnsListQ.length === this.questionlist.length){
     this.submitActive = true;
   }
 

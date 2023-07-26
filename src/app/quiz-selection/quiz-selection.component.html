@@ -1,9 +1,9 @@
 
-<div *ngIf="categorylist">
+<div *ngIf="categorylistRes">
 <select id="categorySelect" (change)="selectCategory($event)" name="selectedCategory">
     <option [value]="null" default>Select a category</option>
 
-  <option *ngFor="let cate of categorylist.trivia_categories" [value]="cate?.id">{{cate.name}}</option>
+  <option *ngFor="let cate of categorylist" [value]="cate.id">{{cate.name}}</option>
 </select>
 
 <select id="difficultySelect" (change)="selectdifficulty($event)" name="selectedLevelselect">
@@ -15,7 +15,7 @@
 <button id="createBtn" (click)=createQuiz()>create</button>
 </div>
 <div *ngIf="questionlist">
-<div *ngFor="let query of questionlist.results let q = index" >
+<div *ngFor="let query of questionlist let q = index" >
  <p [innerHTML]="query.question" ></p>
 <ul>
   <li *ngFor="let options of query.incorrect_answers; let i = index" class="questionlist">
